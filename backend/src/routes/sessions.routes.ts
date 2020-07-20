@@ -7,24 +7,20 @@ const sessionsRouter = Router();
 // A Rota: Receber a requisição, chamar outro arquivo, devolver uma resposta
 
 sessionsRouter.post('/', async (request, response) => {
-  try {
-    const { email, password } = request.body;
+  const { email, password } = request.body;
 
-    const authenticateUser = new AuthenticateUserService();
+  const authenticateUser = new AuthenticateUserService();
 
-    // Chamando serviço de autenticação de usuário
-    const { user, token } = await authenticateUser.execute({
-      email,
-      password,
-    });
+  // Chamando serviço de autenticação de usuário
+  const { user, token } = await authenticateUser.execute({
+    email,
+    password,
+  });
 
-    delete user.password;
+  delete user.password;
 
-    // Caso tenha autenticado retorna o usuário e o token
-    return response.json({ user, token });
-  } catch (err) {
-    return response.status(err.statusCode).json({ error: err.message });
-  }
+  // Caso tenha autenticado retorna o usuário e o token
+  return response.json({ user, token });
 });
 
 export default sessionsRouter;

@@ -14,24 +14,20 @@ const upload = multer(uploadConfig); // Configuração upload avatar
 // A Rota: Receber a requisição, chamar outro arquivo, devolver uma resposta
 
 usersRouter.post('/', async (request, response) => {
-  try {
-    const { name, email, password } = request.body;
+  const { name, email, password } = request.body;
 
-    const createUser = new CreateUserService();
+  const createUser = new CreateUserService();
 
-    const user = await createUser.execute({
-      name,
-      email,
-      password,
-    });
+  const user = await createUser.execute({
+    name,
+    email,
+    password,
+  });
 
-    // Removendo a informação da senha para que a mesma não seja retornada
-    delete user.password;
+  // Removendo a informação da senha para que a mesma não seja retornada
+  delete user.password;
 
-    return response.json(user);
-  } catch (err) {
-    return response.status(400).json({ error: err.message });
-  }
+  return response.json(user);
 });
 
 // Patch é utilizado quando preciso atualizar uma única informação.
